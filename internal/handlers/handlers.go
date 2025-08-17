@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/service"
 )
 
 func HandleRoot(res http.ResponseWriter, req *http.Request) {
@@ -27,29 +29,21 @@ func HandleUpload(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	defer file.Close()
-	// log.Print(handler.Filename)
-	// service logic
 
-	root, err := os.OpenRoot(".")
+	data, err := io.ReadAll(file)
 	if err != nil {
 		log.Print(err)
-		http.Error(res, "internal server error", http.StatusInternalServerError)
+		http.Error(res, "failed to read from file", http.StatusBadRequest)
 		return
 	}
-	defer root.Close()
 
-	dst, err := root.Create(time.Now().UTC().String())
+	convertedString := service.Convert(string(data))
+
+	err = os.WriteFile(time.Now().UTC().String(), []byte(convertedString), 0755)
 	if err != nil {
 		log.Print(err)
-		http.Error(res, "failed to create file", http.StatusInternalServerError)
+		http.Error(res, "internal server error", http.StatusBadRequest)
 		return
 	}
-	defer dst.Close()
-
-	_, err = io.Copy(dst, file)
-	if err != nil {
-		log.Print(err)
-		http.Error(res, "failed to write into file", http.StatusInternalServerError)
-		return
-	}
+	res.Write([]byte(convertedString))
 }
