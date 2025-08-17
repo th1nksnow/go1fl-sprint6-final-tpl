@@ -20,5 +20,5 @@ func Convert(data string) string {
 	if isMorse(data) {
 		return morse.ToText(data)
 	}
-	return morse.ToText(data)
+	return morse.ToMorse(data)
 }
