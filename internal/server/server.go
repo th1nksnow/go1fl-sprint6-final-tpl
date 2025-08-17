@@ -17,10 +17,9 @@ type Server struct {
 func NewServer(logger *log.Logger) *Server {
 
 	r := chi.NewRouter()
-	// Handlers
-	r.Get("/", handlers.HandleRoot)
 
-	//
+	r.Get("/", handlers.HandleRoot)
+	r.Post("/upload", handlers.HandleUpload)
 
 	srv := &http.Server{
 		Addr:         ":8080",
