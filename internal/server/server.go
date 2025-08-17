@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/handlers"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -16,9 +17,9 @@ type Server struct {
 func NewServer(logger *log.Logger) *Server {
 
 	r := chi.NewRouter()
-
 	// Handlers
-	// ...
+	r.Get("/", handlers.HandleRoot)
+
 	//
 
 	srv := &http.Server{
