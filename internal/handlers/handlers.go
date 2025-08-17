@@ -37,6 +37,11 @@ func HandleUpload(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if string(data) == "" {
+		http.Error(res, "recieved file is empty", http.StatusPaymentRequired)
+		return
+	}
+
 	convertedString := service.Convert(string(data))
 
 	err = os.WriteFile(time.Now().UTC().String(), []byte(convertedString), 0755)
