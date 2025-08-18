@@ -47,7 +47,7 @@ func HandleUpload(res http.ResponseWriter, req *http.Request) {
 	err = os.WriteFile(time.Now().UTC().String(), []byte(convertedString), 0755)
 	if err != nil {
 		log.Print(err)
-		http.Error(res, "internal server error", http.StatusBadRequest)
+http.Error(res, "internal server error", http.StatusInternalServerError)
 		return
 	}
 	res.Write([]byte(convertedString))
